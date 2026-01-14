@@ -1,0 +1,50 @@
+## Visual Studio / .NET Git Ignore
+
+# Visual Studio specific
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Rider / IDE
+.idea/
+
+# NuGet
+*.nupkg
+**/packages/
+project.lock.json
+packages.config
+
+# Publish
+publish/
+*.publishsettings
+
+# .NET temporary files
+*.db
+*.pdb
+*.mdb
+*.log
+
+# SQL Server files
+*.mdf
+*.ldf
+
+# User-specific files
+*.rsuser
+*.DotSettings.user
+
+# Resharper
+_ReSharper*/
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+
+# Files created by tooling
+.vsix

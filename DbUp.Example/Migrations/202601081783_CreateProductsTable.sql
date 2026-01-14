@@ -1,0 +1,8 @@
+CREATE TABLE dbo.Products (
+    Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    Name NVARCHAR(200) NOT NULL,
+    Price DECIMAL(18,2) NOT NULL,
+    CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+);
+
+INSERT INTO dbo.Products (Name, Price) VALUES ('Sample Product', 9.99);
