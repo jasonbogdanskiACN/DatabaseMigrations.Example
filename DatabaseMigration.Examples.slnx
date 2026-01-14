@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="DbUp.Example/DbUp.Example.csproj" />
+  <Project Path="EfMigrations.Example/EfMigrations.Example.csproj" />
 </Solution>
