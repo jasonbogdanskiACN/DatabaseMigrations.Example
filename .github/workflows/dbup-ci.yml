@@ -71,3 +71,5 @@ jobs:
         run: |
           dotnet run --project DbUp.Example/DbUp.Example.csproj \
             "Server=$DB_SERVER;Database=$DB_NAME;User ID=sa;Password=$SA_PASSWORD;TrustServerCertificate=True;"
+
+      # Optional: Add a step to verify migrations (e.g., integration tests)
