@@ -11,45 +11,63 @@ jobs:
   run-migrations:
     runs-on: ubuntu-latest
 
+    # Expose the SA password to all steps via environment variable (from GitHub Secrets)
+    env:
+      SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
+      DB_NAME: DbUpExample
+      DB_SERVER: localhost,1433
+
     services:
       sqlserver:
         image: mcr.microsoft.com/mssql/server:2022-latest
         env:
-          SA_PASSWORD: ${{ secrets.SA_PASSWORD }}
+          SA_PASSWORD: ${{ env.SA_PASSWORD }}
           ACCEPT_EULA: "Y"
         ports:
           - 1433:1433
-        options: >-
-          --health-cmd "(/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P '${{ secrets.SA_PASSWORD }}' -Q 'SELECT 1') || exit 1"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
+        # NOTE: Avoid using expressions in `options:` health checks to prevent parsing errors.
+        # We'll handle readiness with a dedicated step below.
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '10.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Wait for SQL Server
-      run: |
-        echo "Waiting for SQL Server to be available..."
-        for i in {1..30}; do
-          /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${{ secrets.SA_PASSWORD }}" -Q "SELECT 1" && break
-          echo "SQL Server not ready yet..."
-          sleep 5
-        done
+      # Optional: quick port wait (ensures container is up before we try SQL logins)
+      - name: Wait for port 1433 to open
+        run: |
+          echo "Waiting for port 1433..."
+          for i in {1..60}; do
+            if nc -z localhost 1433; then
+              echo "Port 1433 is open."
+              break
+            fi
+            echo "Port not open yet..."
+            sleep 2
+          done
 
-    - name: Restore
-      run: dotnet restore
+      # Robust readiness check using the official mssql-tools image (no local install needed)
+      - name: Wait for SQL Server to accept connections
+        run: |
+          echo "Waiting for SQL Server to accept logins..."
+          for i in {1..30}; do
+            docker run --rm --network host mcr.microsoft.com/mssql-tools \
+              /opt/mssql-tools/bin/sqlcmd -S $DB_SERVER -U sa -P "$SA_PASSWORD" -Q "SELECT 1" && break
+            echo "SQL Server not ready yet..."
+            sleep 5
+          done
 
-    - name: Build
-      run: dotnet build --configuration Release
+      - name: Restore
+        run: dotnet restore
 
-    - name: Run DbUp migrations
-      run: |
-        dotnet run --project DbUp.Example/DbUp.Example.csproj \
-          "Server=localhost,1433;Database=ExampleDb;User ID=sa;Password=${{ secrets.SA_PASSWORD }};TrustServerCertificate=True;"
+      - name: Build
+        run: dotnet build --configuration Release
+
+      - name: Run DbUp migrations
+        run: |
+          dotnet run --project tools/DbUpRunner/DbUpRunner.csproj \
+            "Server=$DB_SERVER;Database=$DB_NAME;User ID=sa;Password=$SA_PASSWORD;TrustServerCertificate=True;"
