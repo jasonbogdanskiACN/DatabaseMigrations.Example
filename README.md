@@ -19,7 +19,7 @@ This project is ideal for teams wanting predictable, script‑based database mig
 ### ✔ Automated SQL migrations via DbUp.Example
 The `DbUp.Example` console application:
 
-- Executes SQL scripts from `/database/migrations`
+- Executes SQL scripts from `/migrations`
 - Tracks applied scripts using DbUp’s version table
 - Applies scripts in deterministic order (timestamp filenames recommended)
 - Runs both locally and in CI
@@ -56,6 +56,11 @@ Instructions for integrating each tool are included below.
 
 ## 🧰 Local Development
 
+### 1) Setup local tools
+```powershell
+.\setup.ps1
+```
+
 ### 1) Start SQL Server in Docker
 ```bash
 docker-compose up -d
@@ -69,14 +74,14 @@ dotnet run --project DbUp.Example   "Server=localhost,1433;Database=DbUpExample;
 This will:
 - Create the database if missing
 - Create DbUp’s tracking table
-- Apply all outstanding migration scripts in `/database/migrations`
+- Apply all outstanding migration scripts in `/DbUp.Example/migrations`
 
 ---
 
 ## ✍️ Adding New Migration Scripts
 1. Create a new `.sql` file inside:
 ```
-/database/migrations
+/DbUp.Example/migrations
 ```
 
 2. Use a timestamp prefix for ordering, e.g.:
@@ -141,7 +146,7 @@ Grate uses folder conventions (`up`, `down`, etc.). To use it:
 2. Copy/symlink your existing scripts into `up/`
 3. Run:
 ```bash
-grate --connectionstring "Server=localhost,1433;Database=EfMigrationExampleDb;User Id=sa;Password=Your_password123!;TrustServerCertificate=True"       --files "database/grate" --noninteractive
+dotnet grate --connectionstring "Server=localhost,1433;Database=grateExample;User Id=sa;Password=YourStrong!Passw0rd123;TrustServerCertificate=True"       --files "grate.Example" --noninteractive
 ```
 
 ### Flyway
@@ -153,7 +158,7 @@ Flyway uses `V#__Description.sql` naming.
 ```
 2. Run:
 ```bash
-flyway -url="jdbc:sqlserver://localhost:1433;databaseName=EfMigrationExampleDb;encrypt=false"        -user=sa -password=Your_password123!        -locations=filesystem:database/flyway migrate
+flyway -url="jdbc:sqlserver://localhost:1433;databaseName=flywayExampleProd;encrypt=false"        -user=sa -password=YourStrong!Passw0rd123        -locations=filesystem:database/flyway migrate
 ```
 
 You may run DbUp, Grate, or Flyway as:
