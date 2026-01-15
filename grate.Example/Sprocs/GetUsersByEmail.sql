@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[GetUsersByEmail]
+CREATE OR ALTER PROCEDURE [dbo].[GetUsersByEmail]
     @Email nvarchar(200)
 AS
 BEGIN
