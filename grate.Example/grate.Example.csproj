@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>grate.Example</AssemblyName>
+    <RootNamespace>grate.Example</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Include Grate SQL migrations in build and publish outputs so they travel with the published app -->
+
+    <!-- Keep README files available in the repository but don't copy to output by default -->
+    <None Include="README*.md" CopyToOutputDirectory="Never" />
+    <None Include="README*.txt" CopyToOutputDirectory="Never" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Permissions\001__GrantSelectOnUsers.sql" />
+    <Content Include="up\001__CreateUsersTable.sql" />
+    <Content Include="up\002__AddGetUsersByEmailStoredProc.sql" />
+  </ItemGroup>
+</Project>

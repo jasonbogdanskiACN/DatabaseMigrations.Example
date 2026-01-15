@@ -14,7 +14,7 @@ class Program
     {
         var connectionString = args.Length > 0
             ? args[0]
-            : @"Server=(localdb)\MSSQLLocalDB;Database=DbUpExample;Trusted_Connection=True;";
+            : @"Server=localhost,1433;Database=DbUpExample;User Id=sa;Password=YourStrong!Passw0rd123;TrustServerCertificate=True;";
 
         Console.WriteLine($"Using connection string: {connectionString}");
 

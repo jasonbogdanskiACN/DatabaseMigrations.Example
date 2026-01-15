@@ -9,7 +9,7 @@ namespace EfMigrations.Example
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Use SQL Server Express LocalDB instance by default. Adjust connection string as needed.
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=EfMigrationsExampleDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer("Server=localhost,1433;Database=EfMigrationsExampleDb;User Id=sa;Password=YourStrong!Passw0rd123;TrustServerCertificate=True;MultipleActiveResultSets=true");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
