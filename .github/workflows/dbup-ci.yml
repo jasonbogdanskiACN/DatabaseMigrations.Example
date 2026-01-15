@@ -69,5 +69,5 @@ jobs:
 
       - name: Run DbUp migrations
         run: |
-          dotnet run --project tools/DbUpRunner/DbUpRunner.csproj \
+          dotnet run --project DbUp.Example/DbUp.Example.csproj \
             "Server=$DB_SERVER;Database=$DB_NAME;User ID=sa;Password=$SA_PASSWORD;TrustServerCertificate=True;"
