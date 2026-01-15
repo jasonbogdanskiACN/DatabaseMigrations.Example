@@ -48,3 +48,6 @@ ehthumbs.db
 
 # Files created by tooling
 .vsix
+
+# Environment variables
+.env
