@@ -22,7 +22,7 @@ namespace EfMigrations.Example
             }
 
             Console.WriteLine("Adding a new user and saving changes...");
-            db.Users.Add(new User { Name = "Alice", Email = "alice@example.com" });
+            db.Users.Add(new User { Name = "Alice", Email = "alice@example.com", PhoneNumber = "3308083213" });
             db.SaveChanges();
 
             Console.WriteLine("Users after insert:");
