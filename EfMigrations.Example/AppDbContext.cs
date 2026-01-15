@@ -19,6 +19,7 @@ namespace EfMigrations.Example
                 b.HasKey(u => u.Id);
                 b.Property(u => u.Name).IsRequired().HasMaxLength(200);
                 b.Property(u => u.Email).HasMaxLength(200);
+                b.Property(u => u.PhoneNumber).HasMaxLength(20);
             });
         }
     }
