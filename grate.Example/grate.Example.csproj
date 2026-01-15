@@ -15,10 +15,4 @@
     <None Include="README*.md" CopyToOutputDirectory="Never" />
     <None Include="README*.txt" CopyToOutputDirectory="Never" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Permissions\001__GrantSelectOnUsers.sql" />
-    <Content Include="up\001__CreateUsersTable.sql" />
-    <Content Include="up\002__AddGetUsersByEmailStoredProc.sql" />
-  </ItemGroup>
 </Project>

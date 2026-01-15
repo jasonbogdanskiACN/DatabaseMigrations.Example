@@ -3,5 +3,5 @@ CREATE OR ALTER PROCEDURE [dbo].[GetUsersByEmail]
 AS
 BEGIN
     SET NOCOUNT ON;
-    SELECT [Id],[Name],[Email] FROM [Users] WHERE [Email] = @Email;
+    SELECT [Id],[Name] FROM [Users] WHERE [Email] = @Email;
 END
