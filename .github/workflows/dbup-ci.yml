@@ -75,6 +75,6 @@ jobs:
 
       - name: Run Ef Core migrations
         run: |
-          #TODO: Update connection string as needed for your EF Core project
-          dotnet run --project DbUp.EfMigrationsExample/DbUp.EfMigrationsExample.csproj 
+          dotnet run --project EfMigrations.Example/EfMigrations.Example.csproj 
+      #TODO: Update connection string as needed for your EF Core project
       # Optional: Add a step to verify migrations (e.g., integration tests)
